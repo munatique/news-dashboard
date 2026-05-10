@@ -418,20 +418,26 @@ body {
   .filter-label { font-size: 12px; min-width: 32px; }
   .period-btns { flex-wrap: wrap; }
   .period-btn { font-size: 12px; padding: 4px 10px; }
+  .filter-group-kw {
+    overflow: hidden;
+  }
   .kw-chips {
-    flex-direction: row;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    flex-direction: column;
+    overflow: visible;
     gap: 4px;
     padding-bottom: 4px;
   }
   .kw-chips::-webkit-scrollbar { display: none; }
   .kw-chip-row {
+    display: flex;
     gap: 4px;
     flex-wrap: nowrap;
-    flex-shrink: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
   }
-  .kw-chip { font-size: 11px; padding: 3px 8px; flex-shrink: 0; }
+  .kw-chip-row::-webkit-scrollbar { display: none; }
+  .kw-chip { font-size: 11px; padding: 3px 8px; flex-shrink: 0; white-space: nowrap; }
   .kw-chip .chip-dot { width: 5px; height: 5px; }
   .custom-range { margin-left: 0; }
   .date-input { font-size: 12px; padding: 3px 6px; }
