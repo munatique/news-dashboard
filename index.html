@@ -383,7 +383,6 @@ body {
 .news-card-date {
   font-size: 12px;
   color: var(--text-muted);
-  margin-left: auto;
 }
 .news-card-title {
   font-size: 14px;
@@ -716,7 +715,7 @@ function renderNews() {
     const newBadge = n._isToday ? '<span class="new-badge">NEW</span>' : '';
     if (mobile) {
       parts.push(`<a class="news-card" href="${n.link}" target="_blank" rel="noopener">
-        <div class="news-card-top"><span class="news-tag ${n._tagClass}">${n._shortKw}</span>${newBadge}<span class="news-card-date">${n._dayTime}</span></div>
+        <div class="news-card-top"><span class="news-card-date">${n._dayTime}</span>${newBadge}<span class="news-tag ${n._tagClass}">${n._shortKw}</span></div>
         <div class="news-card-title">${n._titleHtml}</div>
       </a>`);
     } else {
