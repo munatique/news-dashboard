@@ -480,6 +480,7 @@ body {
         <div class="filter-group">
           <span class="filter-label">기간</span>
           <div class="period-btns" id="periodBtns">
+            <button class="period-btn" data-period="today">오늘업뎃만</button>
             <button class="period-btn" data-period="all">전체</button>
             <button class="period-btn" data-period="3m">최근 3개월</button>
             <button class="period-btn" data-period="6m">최근 6개월</button>
@@ -536,7 +537,7 @@ Object.keys(KW_META).forEach((kw, i) => { KW_SORT_ORDER[kw] = i; });
 
 let allNews = [];
 let activeKws = new Set(); // empty = 전체
-let activePeriod = 'all';
+let activePeriod = 'today';
 let _searchTimer = null;
 
 // Pre-compute cutoff once per filter change, not per row
@@ -544,6 +545,11 @@ let _cachedCutoff = null;
 function updateCutoff() {
   const now = new Date();
   if (activePeriod === 'all') { _cachedCutoff = null; return; }
+  if (activePeriod === 'today') {
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    _cachedCutoff = { type:'after', ts: start.getTime() };
+    return;
+  }
   if (activePeriod === '3m') { now.setMonth(now.getMonth() - 3); _cachedCutoff = { type:'after', ts: now.getTime() }; return; }
   if (activePeriod === '6m') { now.setMonth(now.getMonth() - 6); _cachedCutoff = { type:'after', ts: now.getTime() }; return; }
   if (activePeriod === 'custom') {
