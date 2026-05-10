@@ -791,7 +791,7 @@ function handleSheetData(data) {
       const ka = KW_SORT_ORDER[a.keyword] ?? 999;
       const kb = KW_SORT_ORDER[b.keyword] ?? 999;
       if (ka !== kb) return ka - kb;
-      return (b.published || '').localeCompare(a.published || '');
+      return (b._ts || 0) - (a._ts || 0);
     });
     allNews = news;
     render();
