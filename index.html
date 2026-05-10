@@ -804,9 +804,15 @@ function handleSheetData(data) {
       });
     }
     news.sort((a, b) => {
+      // 1순위: 날짜(시간 제외) 최신순
+      const da = (a.published || '').split(' ')[0] || '';
+      const db = (b.published || '').split(' ')[0] || '';
+      if (da !== db) return db.localeCompare(da);
+      // 2순위: 키워드 사이드바 순서
       const ka = KW_SORT_ORDER[a.keyword] ?? 999;
       const kb = KW_SORT_ORDER[b.keyword] ?? 999;
       if (ka !== kb) return ka - kb;
+      // 3순위: 시간 최신순
       return (b._ts || 0) - (a._ts || 0);
     });
     allNews = news;
