@@ -683,12 +683,14 @@ function buildPeriodBtns() {
 function getFiltered() {
   updateCutoff();
   const hasKw = activeKws.size > 0;
+  const isToday = activePeriod === 'today';
   const q = document.getElementById('searchInput').value.trim().toLowerCase();
   const result = [];
   for (let i = 0, len = allNews.length; i < len; i++) {
     const n = allNews[i];
     if (hasKw && !activeKws.has(n.keyword)) continue;
-    if (!isInPeriod(n._ts)) continue;
+    if (isToday) { if (!n._isToday) continue; }
+    else if (!isInPeriod(n._ts)) continue;
     if (q && n._searchText.indexOf(q) === -1) continue;
     result.push(n);
   }
@@ -774,7 +776,15 @@ function handleSheetData(data) {
         published = `${y}-${String(Number(m)+1).padStart(2,'0')}-${String(d).padStart(2,'0')} ${h}:${String(min).padStart(2,'0')}`;
       }
       // Pre-compute: timestamp, formatted date, search text, tag class, escaped title
-      const pd = published ? new Date(published.replace(' ', 'T')) : null;
+      // Normalize time: "2026-05-10 5:01" → "2026-05-10T05:01"
+      let normalizedPublished = published;
+      const timeMatch = published.match(/^(\d{4}-\d{2}-\d{2})\s+(\d{1,2}):(\d{2})$/);
+      if (timeMatch) {
+        normalizedPublished = `${timeMatch[1]}T${timeMatch[2].padStart(2,'0')}:${timeMatch[3]}`;
+      } else {
+        normalizedPublished = published.replace(' ', 'T');
+      }
+      const pd = normalizedPublished ? new Date(normalizedPublished) : null;
       const ts = pd && !isNaN(pd) ? pd.getTime() : null;
       const { day, time } = formatDate(published);
       const meta = KW_META[keyword] || { tagClass: 'tag-individual', color: '#888' };
