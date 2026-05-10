@@ -712,7 +712,7 @@ function renderNews() {
 
   for (let i = 0, len = showList.length; i < len; i++) {
     const n = showList[i];
-    const newBadge = n._isToday ? '<span class="new-badge">NEW</span>' : '';
+    const newBadge = n._isToday ? '<span class="new-badge">오늘업뎃</span>' : '';
     if (mobile) {
       parts.push(`<a class="news-card" href="${n.link}" target="_blank" rel="noopener">
         <div class="news-card-top"><span class="news-card-date">${n._dayTime}</span>${newBadge}<span class="news-tag ${n._tagClass}">${n._shortKw}</span></div>
