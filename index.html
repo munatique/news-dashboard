@@ -366,11 +366,32 @@ body {
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* --- TAG COLORS --- */
-.tag-individual { background: #ede9fe; color: #6d28d9; }
-.tag-small-biz { background: #d1fae5; color: #047857; }
-.tag-seoul { background: #dbeafe; color: #1d4ed8; }
-.tag-metro { background: #fef3c7; color: #b45309; }
-.tag-province { background: #fee2e2; color: #b91c1c; }
+/* --- TAG COLORS: background by region, text color unique per keyword --- */
+/* 핵심 키워드 */
+.tag-individual  { background: #ede9fe; color: #6d28d9; }
+.tag-smallbiz    { background: #d1fae5; color: #047857; }
+/* 수도권 - 파랑 배경 */
+.tag-seoul    { background: #dbeafe; color: #1e40af; }
+.tag-gyeonggi { background: #dbeafe; color: #0e7490; }
+.tag-incheon  { background: #dbeafe; color: #4338ca; }
+/* 충청·강원 - 주황 배경 */
+.tag-gangwon  { background: #fef3c7; color: #92400e; }
+.tag-chungnam { background: #fef3c7; color: #b45309; }
+.tag-chungbuk { background: #fef3c7; color: #a16207; }
+.tag-daejeon  { background: #fef3c7; color: #7c2d12; }
+.tag-sejong   { background: #fef3c7; color: #854d0e; }
+/* 호남 - 빨강 배경 */
+.tag-jeonbuk  { background: #fee2e2; color: #991b1b; }
+.tag-jeonnam  { background: #fee2e2; color: #9f1239; }
+.tag-gwangju  { background: #fee2e2; color: #be123c; }
+/* 영남 - 하늘파랑 배경 */
+.tag-gyeongbuk { background: #e0f2fe; color: #075985; }
+.tag-gyeongnam { background: #e0f2fe; color: #155e75; }
+.tag-daegu     { background: #e0f2fe; color: #1e3a5f; }
+.tag-busan     { background: #e0f2fe; color: #0c4a6e; }
+.tag-ulsan     { background: #e0f2fe; color: #164e63; }
+/* 제주 */
+.tag-jeju      { background: #fce7f3; color: #9d174d; }
 
 /* responsive */
 /* --- MOBILE CARD --- */
@@ -534,25 +555,25 @@ const SHEET_ID = '1HfOD95A1duNXH6TxB3oNnD2dTbWUJrTFcTuSE0-Z7Ks';
 const AUTO_REFRESH_MS = 10 * 60 * 1000; // 10분마다
 
 const KW_META = {
-  '개인사업자':       { group: '핵심 키워드', color: '#9b8aff', tagClass: 'tag-individual' },
-  '소상공인':         { group: '핵심 키워드', color: '#2dd4a8', tagClass: 'tag-small-biz' },
-  '서울신용보증재단': { group: '수도권',     color: '#4a9eff', tagClass: 'tag-seoul' },
-  '경기신용보증재단': { group: '수도권',     color: '#4a9eff', tagClass: 'tag-seoul' },
-  '인천신용보증재단': { group: '수도권',     color: '#4a9eff', tagClass: 'tag-seoul' },
-  '강원신용보증재단': { group: '충청·강원',  color: '#f0a050', tagClass: 'tag-metro' },
-  '충남신용보증재단': { group: '충청·강원',  color: '#f0a050', tagClass: 'tag-metro' },
-  '충북신용보증재단': { group: '충청·강원',  color: '#f0a050', tagClass: 'tag-metro' },
-  '대전신용보증재단': { group: '충청·강원',  color: '#f0a050', tagClass: 'tag-metro' },
-  '세종신용보증재단': { group: '충청·강원',  color: '#f0a050', tagClass: 'tag-metro' },
-  '전북신용보증재단': { group: '호남',       color: '#f07068', tagClass: 'tag-province' },
-  '전남신용보증재단': { group: '호남',       color: '#f07068', tagClass: 'tag-province' },
-  '광주신용보증재단': { group: '호남',       color: '#f07068', tagClass: 'tag-province' },
-  '경북신용보증재단': { group: '영남',       color: '#f0a050', tagClass: 'tag-metro' },
-  '경남신용보증재단': { group: '영남',       color: '#f0a050', tagClass: 'tag-metro' },
-  '대구신용보증재단': { group: '영남',       color: '#f0a050', tagClass: 'tag-metro' },
-  '부산신용보증재단': { group: '영남',       color: '#f0a050', tagClass: 'tag-metro' },
-  '울산신용보증재단': { group: '영남',       color: '#f0a050', tagClass: 'tag-metro' },
-  '제주신용보증재단': { group: '제주',       color: '#f07068', tagClass: 'tag-province' },
+  '개인사업자':       { group: '핵심 키워드', color: '#6d28d9', tagClass: 'tag-individual' },
+  '소상공인':         { group: '핵심 키워드', color: '#047857', tagClass: 'tag-smallbiz' },
+  '서울신용보증재단': { group: '수도권',     color: '#1e40af', tagClass: 'tag-seoul' },
+  '경기신용보증재단': { group: '수도권',     color: '#0e7490', tagClass: 'tag-gyeonggi' },
+  '인천신용보증재단': { group: '수도권',     color: '#4338ca', tagClass: 'tag-incheon' },
+  '강원신용보증재단': { group: '충청·강원',  color: '#92400e', tagClass: 'tag-gangwon' },
+  '충남신용보증재단': { group: '충청·강원',  color: '#b45309', tagClass: 'tag-chungnam' },
+  '충북신용보증재단': { group: '충청·강원',  color: '#a16207', tagClass: 'tag-chungbuk' },
+  '대전신용보증재단': { group: '충청·강원',  color: '#7c2d12', tagClass: 'tag-daejeon' },
+  '세종신용보증재단': { group: '충청·강원',  color: '#854d0e', tagClass: 'tag-sejong' },
+  '전북신용보증재단': { group: '호남',       color: '#991b1b', tagClass: 'tag-jeonbuk' },
+  '전남신용보증재단': { group: '호남',       color: '#9f1239', tagClass: 'tag-jeonnam' },
+  '광주신용보증재단': { group: '호남',       color: '#be123c', tagClass: 'tag-gwangju' },
+  '경북신용보증재단': { group: '영남',       color: '#075985', tagClass: 'tag-gyeongbuk' },
+  '경남신용보증재단': { group: '영남',       color: '#155e75', tagClass: 'tag-gyeongnam' },
+  '대구신용보증재단': { group: '영남',       color: '#1e3a5f', tagClass: 'tag-daegu' },
+  '부산신용보증재단': { group: '영남',       color: '#0c4a6e', tagClass: 'tag-busan' },
+  '울산신용보증재단': { group: '영남',       color: '#164e63', tagClass: 'tag-ulsan' },
+  '제주신용보증재단': { group: '제주',       color: '#9d174d', tagClass: 'tag-jeju' },
 };
 
 // Keyword sort order based on sidebar menu order
