@@ -280,7 +280,7 @@ body {
 
 .news-header {
   display: grid;
-  grid-template-columns: 130px 40px 130px 1fr;
+  grid-template-columns: 130px 55px 130px 1fr;
   gap: 12px;
   padding: 11px 28px;
   font-size: 14px;
@@ -294,7 +294,7 @@ body {
 }
 .news-item {
   display: grid;
-  grid-template-columns: 130px 40px 130px 1fr;
+  grid-template-columns: 130px 55px 130px 1fr;
   gap: 12px;
   align-items: center;
   padding: 11px 28px;
@@ -333,7 +333,8 @@ body {
   background: rgba(255,23,68,0.12);
   padding: 1px 6px;
   border-radius: 3px;
-  letter-spacing: 0.5px;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
   animation: newGlow 1.5s ease-in-out infinite alternate;
 }
 @keyframes newGlow {
@@ -787,13 +788,10 @@ function handleSheetData(data) {
       });
     }
     news.sort((a, b) => {
-      const da = (a.published || '').split(' ')[0] || '';
-      const db = (b.published || '').split(' ')[0] || '';
-      const dateComp = db.localeCompare(da);
-      if (dateComp !== 0) return dateComp;
       const ka = KW_SORT_ORDER[a.keyword] ?? 999;
       const kb = KW_SORT_ORDER[b.keyword] ?? 999;
-      return ka - kb;
+      if (ka !== kb) return ka - kb;
+      return (b.published || '').localeCompare(a.published || '');
     });
     allNews = news;
     render();
