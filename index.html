@@ -370,16 +370,16 @@ body {
 /* 핵심 키워드 */
 .tag-individual  { background: #ede9fe; color: #6d28d9; }
 .tag-smallbiz    { background: #d1fae5; color: #047857; }
-/* 수도권 - 파랑 배경 */
-.tag-seoul    { background: #dbeafe; color: #1e3a8a; }
-.tag-gyeonggi { background: #dbeafe; color: #0369a1; }
-.tag-incheon  { background: #dbeafe; color: #5b21b6; }
+/* 수도권 - 진한 파랑 배경 */
+.tag-seoul    { background: #bfdbfe; color: #1e3a8a; }
+.tag-gyeonggi { background: #bfdbfe; color: #0369a1; }
+.tag-incheon  { background: #bfdbfe; color: #5b21b6; }
 /* 충청·강원 - 주황 배경 */
 .tag-gangwon  { background: #fef3c7; color: #78350f; }
 .tag-chungnam { background: #fef3c7; color: #c2410c; }
 .tag-chungbuk { background: #fef3c7; color: #4d7c0f; }
-.tag-daejeon  { background: #fef3c7; color: #6d28d9; }
-.tag-sejong   { background: #fef3c7; color: #7e22ce; }
+.tag-daejeon  { background: #fef3c7; color: #1d4ed8; }
+.tag-sejong   { background: #fef3c7; color: #be185d; }
 /* 호남 - 빨강 배경 */
 .tag-jeonbuk  { background: #fee2e2; color: #1d4ed8; }
 .tag-jeonnam  { background: #fee2e2; color: #7e22ce; }
@@ -563,8 +563,8 @@ const KW_META = {
   '강원신용보증재단': { group: '충청·강원',  color: '#78350f', tagClass: 'tag-gangwon' },
   '충남신용보증재단': { group: '충청·강원',  color: '#c2410c', tagClass: 'tag-chungnam' },
   '충북신용보증재단': { group: '충청·강원',  color: '#4d7c0f', tagClass: 'tag-chungbuk' },
-  '대전신용보증재단': { group: '충청·강원',  color: '#6d28d9', tagClass: 'tag-daejeon' },
-  '세종신용보증재단': { group: '충청·강원',  color: '#7e22ce', tagClass: 'tag-sejong' },
+  '대전신용보증재단': { group: '충청·강원',  color: '#1d4ed8', tagClass: 'tag-daejeon' },
+  '세종신용보증재단': { group: '충청·강원',  color: '#be185d', tagClass: 'tag-sejong' },
   '전북신용보증재단': { group: '호남',       color: '#1d4ed8', tagClass: 'tag-jeonbuk' },
   '전남신용보증재단': { group: '호남',       color: '#7e22ce', tagClass: 'tag-jeonnam' },
   '광주신용보증재단': { group: '호남',       color: '#be185d', tagClass: 'tag-gwangju' },
@@ -693,7 +693,7 @@ function buildKwChips() {
   // Tag background lookup
   const TAG_BG = {
     'tag-individual':'#ede9fe','tag-smallbiz':'#d1fae5',
-    'tag-seoul':'#dbeafe','tag-gyeonggi':'#dbeafe','tag-incheon':'#dbeafe',
+    'tag-seoul':'#bfdbfe','tag-gyeonggi':'#bfdbfe','tag-incheon':'#bfdbfe',
     'tag-gangwon':'#fef3c7','tag-chungnam':'#fef3c7','tag-chungbuk':'#fef3c7','tag-daejeon':'#fef3c7','tag-sejong':'#fef3c7',
     'tag-jeonbuk':'#fee2e2','tag-jeonnam':'#fee2e2','tag-gwangju':'#fee2e2',
     'tag-gyeongbuk':'#ecfccb','tag-gyeongnam':'#ecfccb','tag-daegu':'#ecfccb','tag-busan':'#ecfccb','tag-ulsan':'#ecfccb',
