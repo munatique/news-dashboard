@@ -326,6 +326,9 @@ body {
   text-overflow: ellipsis;
 }
 .news-item:hover .news-title { color: var(--accent-blue); }
+.date-sep {
+  border-bottom: 3px solid #aab0bc;
+}
 .new-badge {
   font-size: 11px;
   font-weight: 700;
@@ -739,14 +742,18 @@ function renderNews() {
 
   for (let i = 0, len = showList.length; i < len; i++) {
     const n = showList[i];
+    const nextN = showList[i + 1];
+    const curDate = (n.published || '').split(' ')[0];
+    const nextDate = nextN ? (nextN.published || '').split(' ')[0] : curDate;
+    const isDateEnd = curDate !== nextDate;
     const newBadge = n._isToday ? '<span class="new-badge">오늘업뎃</span>' : '';
     if (mobile) {
-      parts.push(`<a class="news-card" href="${n.link}" target="_blank" rel="noopener">
+      parts.push(`<a class="news-card${isDateEnd ? ' date-sep' : ''}" href="${n.link}" target="_blank" rel="noopener">
         <div class="news-card-top"><span class="news-card-date">${n._dayTime}</span>${newBadge}<span class="news-tag ${n._tagClass}">${n._shortKw}</span></div>
         <div class="news-card-title">${n._titleHtml}</div>
       </a>`);
     } else {
-      parts.push(`<a class="news-item" href="${n.link}" target="_blank" rel="noopener"><div class="news-date">${n._dayTime}</div><div>${newBadge}</div><div><span class="news-tag ${n._tagClass}">${n._shortKw}</span></div><div class="news-title">${n._titleHtml}</div></a>`);
+      parts.push(`<a class="news-item${isDateEnd ? ' date-sep' : ''}" href="${n.link}" target="_blank" rel="noopener"><div class="news-date">${n._dayTime}</div><div>${newBadge}</div><div><span class="news-tag ${n._tagClass}">${n._shortKw}</span></div><div class="news-title">${n._titleHtml}</div></a>`);
     }
   }
   if (list.length > MAX_RENDER) {
