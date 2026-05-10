@@ -389,10 +389,9 @@ body {
   font-size: 14px;
   color: var(--text-primary);
   line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 768px) {
@@ -408,6 +407,7 @@ body {
   .toolbar-filters {
     flex-direction: column;
     gap: 8px;
+    overflow: visible;
   }
   .filter-divider {
     width: 100%;
@@ -419,16 +419,19 @@ body {
   .period-btns { flex-wrap: wrap; }
   .period-btn { font-size: 12px; padding: 4px 10px; }
   .filter-group-kw {
-    overflow: hidden;
+    overflow: visible;
+    min-width: 0;
+    width: 100%;
   }
   .kw-chips {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    overflow-x: auto;
+    overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
     gap: 4px;
     padding-bottom: 4px;
+    width: 100%;
   }
   .kw-chips::-webkit-scrollbar { display: none; }
   .kw-chip-row {
