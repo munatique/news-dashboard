@@ -829,12 +829,21 @@ function processNewsData(jsonArray) {
 
     for (let i = 0; i < jsonArray.length; i++) {
       const item = jsonArray[i];
-      const keyword = item.keyword || '';
-      const title = item.title || '';
+      const keyword = (item.keyword || '').replace(/^"|"$/g, '');
+      const title = (item.title || '').replace(/^"|"$/g, '');
       const link = item.link || '';
       let published = item.published || '';
       const summary = item.summary || '';
       if (!title || !keyword) continue;
+
+      // Normalize ISO dates (2026-05-10T22:28:00.000Z) to KST "2026-05-11 7:28"
+      if (published.includes('T') && (published.includes('Z') || published.includes('+'))) {
+        const d = new Date(published);
+        if (!isNaN(d)) {
+          const kst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
+          published = `${kst.getUTCFullYear()}-${String(kst.getUTCMonth()+1).padStart(2,'0')}-${String(kst.getUTCDate()).padStart(2,'0')} ${kst.getUTCHours()}:${String(kst.getUTCMinutes()).padStart(2,'0')}`;
+        }
+      }
 
       // Normalize time: "2026-05-10 5:01" → "2026-05-10T05:01"
       let normalizedPublished = published;
