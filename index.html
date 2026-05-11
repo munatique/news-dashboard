@@ -551,7 +551,7 @@ body {
 </div>
 
 <script>
-const SHEET_ID = '1HfOD95A1duNXH6TxB3oNnD2dTbWUJrTFcTuSE0-Z7Ks';
+const DATA_URL = 'https://raw.githubusercontent.com/munatique/news-dashboard/main/data.json';
 const AUTO_REFRESH_MS = 10 * 60 * 1000; // 10분마다
 
 const KW_META = {
@@ -820,26 +820,22 @@ function onSearchInput() {
 }
 
 // JSONP callback — Google Sheets will call this function
-function handleSheetData(data) {
+function processNewsData(jsonArray) {
   try {
-    const rows = data.table.rows;
     const news = [];
     const tmpDiv = document.createElement('div');
-    for (let i = 0; i < rows.length; i++) {
-      const c = rows[i].c;
-      if (!c) continue;
-      const keyword = (c[1] && c[1].v) ? String(c[1].v).replace(/^"|"$/g, '') : '';
-      const title = (c[3] && c[3].v) ? String(c[3].v) : '';
-      const link = (c[4] && c[4].v) ? String(c[4].v) : '';
-      let published = (c[5] && c[5].f) ? String(c[5].f) : (c[5] && c[5].v) ? String(c[5].v) : '';
-      const summary = (c[6] && c[6].v) ? String(c[6].v) : '';
+    const today = new Date();
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+    for (let i = 0; i < jsonArray.length; i++) {
+      const item = jsonArray[i];
+      const keyword = item.keyword || '';
+      const title = item.title || '';
+      const link = item.link || '';
+      let published = item.published || '';
+      const summary = item.summary || '';
       if (!title || !keyword) continue;
-      const dateMatch = published.match(/Date\((\d+),(\d+),(\d+),(\d+),(\d+)/);
-      if (dateMatch) {
-        const [, y, m, d, h, min] = dateMatch;
-        published = `${y}-${String(Number(m)+1).padStart(2,'0')}-${String(d).padStart(2,'0')} ${h}:${String(min).padStart(2,'0')}`;
-      }
-      // Pre-compute: timestamp, formatted date, search text, tag class, escaped title
+
       // Normalize time: "2026-05-10 5:01" → "2026-05-10T05:01"
       let normalizedPublished = published;
       const timeMatch = published.match(/^(\d{4}-\d{2}-\d{2})\s+(\d{1,2}):(\d{2})$/);
@@ -853,8 +849,6 @@ function handleSheetData(data) {
       const { day, time } = formatDate(published);
       const meta = KW_META[keyword] || { tagClass: 'tag-individual', color: '#888' };
       tmpDiv.textContent = title;
-      const today = new Date();
-      const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
       const isToday = published.startsWith(todayStr);
       news.push({
         keyword, title, link, published, summary,
@@ -868,15 +862,12 @@ function handleSheetData(data) {
       });
     }
     news.sort((a, b) => {
-      // 1순위: 날짜(시간 제외) 최신순
       const da = (a.published || '').split(' ')[0] || '';
       const db = (b.published || '').split(' ')[0] || '';
       if (da !== db) return db.localeCompare(da);
-      // 2순위: 키워드 사이드바 순서
       const ka = KW_SORT_ORDER[a.keyword] ?? 999;
       const kb = KW_SORT_ORDER[b.keyword] ?? 999;
       if (ka !== kb) return ka - kb;
-      // 3순위: 시간 최신순
       return (b._ts || 0) - (a._ts || 0);
     });
     allNews = news;
@@ -893,23 +884,21 @@ function handleSheetData(data) {
   }
 }
 
-function loadData() {
+async function loadData() {
   const container = document.getElementById('newsList');
   container.innerHTML = `<div class="state-msg"><div class="spinner"></div>데이터를 불러오는 중...</div>`;
-  // Remove previous script tag if any
-  const old = document.getElementById('gviz-script');
-  if (old) old.remove();
-  // JSONP: inject script tag — bypasses CORS entirely
-  const script = document.createElement('script');
-  script.id = 'gviz-script';
-  script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=responseHandler:handleSheetData&gid=0`;
-  script.onerror = function() {
+  try {
+    const res = await fetch(DATA_URL + '?t=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const jsonArray = await res.json();
+    processNewsData(jsonArray);
+  } catch (e) {
     container.innerHTML = `<div class="state-msg">
       데이터를 불러올 수 없습니다<br>
-      <span style="font-size:12px;color:var(--text-muted)">스프레드시트 공유 설정을 확인해주세요</span>
+      <span style="font-size:12px;color:var(--text-muted)">${escHtml(e.message)}</span>
     </div>`;
-  };
-  document.body.appendChild(script);
+    console.error(e);
+  }
 }
 
 document.getElementById('searchInput').addEventListener('input', onSearchInput);
